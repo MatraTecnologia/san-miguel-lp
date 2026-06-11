@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn, emailOtp, signInWithOtp } from "@/lib/auth-client";
 import { toast } from "sonner";
@@ -15,7 +14,6 @@ type Tab = "senha" | "otp";
 type OtpStep = "email" | "codigo";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [tab, setTab] = useState<Tab>("senha");
 
   const [email, setEmail] = useState("");
@@ -33,11 +31,11 @@ export default function LoginPage() {
     const result = await signIn.email({ email, password });
     if (result.error) {
       toast.error("Email ou senha incorretos.");
+      setLoading(false);
     } else {
       toast.success("Login realizado com sucesso!");
-      router.push("/admin");
+      window.location.href = "/admin";
     }
-    setLoading(false);
   }
 
   async function handleSendOtp(e: React.FormEvent) {
@@ -60,11 +58,11 @@ export default function LoginPage() {
     if (result.error) {
       toast.error("Código inválido ou expirado. Solicite um novo código.");
       setOtpCode("");
+      setLoading(false);
     } else {
       toast.success("Login realizado com sucesso!");
-      router.push("/admin");
+      window.location.href = "/admin";
     }
-    setLoading(false);
   }
 
   function switchTab(next: Tab) {
