@@ -1,62 +1,62 @@
-export default function Hero() {
+import WhatsAppButton from "./WhatsAppButton";
+
+interface Props {
+  whatsapp: string;
+  message: string;
+}
+
+export default function Hero({ whatsapp, message }: Props) {
   return (
-    <section className="relative bg-[#3a2e22] text-marfim overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center bg-[#2a2018] overflow-hidden">
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0"
         style={{
-          backgroundImage:
-            "radial-gradient(ellipse at 70% 50%, #D6A25F 0%, transparent 60%)",
+          backgroundImage: "radial-gradient(ellipse at 80% 50%, rgba(214,162,95,0.15) 0%, transparent 60%)",
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-6 py-24 md:py-36 flex flex-col items-center text-center gap-8">
-        <div className="flex flex-col items-center gap-2">
+      <div className="relative max-w-6xl mx-auto px-6 w-full grid md:grid-cols-2 gap-12 items-center py-28 md:py-20">
+        <div className="flex flex-col gap-7">
           <div className="flex items-center gap-3">
-            <span className="h-px w-10 bg-caramelo" />
-            <span className="font-sans text-caramelo text-xs tracking-[0.25em] uppercase">
-              Estofados &amp; Decor
-            </span>
-            <span className="h-px w-10 bg-caramelo" />
+            <span className="h-px w-8 bg-caramelo" />
+            <span className="font-sans text-caramelo text-xs tracking-[0.3em] uppercase">Norte Shopping · Londrina, PR</span>
           </div>
 
-          <h1 className="font-display text-5xl md:text-7xl font-semibold text-marfim leading-tight">
-            São Miguel
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-semibold text-marfim leading-[1.1]">
+            Estofados que<br />
+            <span className="text-caramelo">transformam</span><br />
+            seu lar.
           </h1>
 
-          <p className="font-sans text-champanhe text-lg md:text-xl tracking-wide">
-            Conforto que transforma seu lar.
+          <p className="font-sans text-areia text-lg leading-relaxed max-w-md">
+            Sofás, poltronas e cadeiras de alto padrão. Visite nossa loja e encontre a peça perfeita para o seu espaço.
           </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 max-w-sm">
+            <WhatsAppButton
+              whatsapp={whatsapp}
+              message={message}
+              label="Falar no WhatsApp"
+              className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-sans font-semibold text-sm px-7 py-3.5 rounded-full transition-colors"
+            />
+            <a
+              href="/produtos"
+              className="flex items-center justify-center font-sans font-semibold text-sm px-7 py-3.5 rounded-full border border-areia/40 text-areia hover:bg-areia/10 transition-colors"
+            >
+              Ver produtos
+            </a>
+          </div>
         </div>
 
-        <p className="font-sans text-areia text-base md:text-lg max-w-md leading-relaxed">
-          Sofás, poltronas e móveis de alto padrão para quem valoriza elegância e bem-estar no dia a dia.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 mt-2">
-          <a
-            href="https://wa.me/5543999999999?text=Olá! Vi o site e gostaria de saber mais sobre os produtos."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-sans font-semibold text-sm tracking-wide px-8 py-4 rounded-full bg-caramelo text-white hover:bg-caramelo-dark transition-colors"
-          >
-            Fale no WhatsApp
-          </a>
-          <a
-            href="https://instagram.com/saomiguelestofadosdecor"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-sans font-semibold text-sm tracking-wide px-8 py-4 rounded-full border border-areia text-areia hover:bg-areia/10 transition-colors"
-          >
-            Ver no Instagram
-          </a>
-        </div>
-
-        <div className="mt-6 flex flex-col items-center gap-1 text-areia font-sans text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-caramelo" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          <span>Norte Shopping · Londrina, PR</span>
+        <div className="hidden md:flex items-center justify-center">
+          <div className="relative w-full aspect-[4/5] max-w-md rounded-3xl overflow-hidden bg-[#3a2e22]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-areia/30">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-20 h-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span className="font-sans text-xs tracking-widest uppercase">Adicione uma foto na home</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
