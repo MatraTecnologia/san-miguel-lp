@@ -2,21 +2,25 @@ import { betterAuth } from "better-auth";
 import { emailOTP } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
+import { sendOTPEmail, sendResetPasswordEmail } from "@/lib/email";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "mysql" }),
+  user: {
+    additionalFields: {
+      role: { type: "string", defaultValue: "customer", fieldName: "role" },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
-      // TODO: integrar com serviço de email (ex: Resend, Nodemailer)
-      console.log(`[reset-password] Link para ${user.email}: ${url}`);
+      await sendResetPasswordEmail(user.email, url);
     },
   },
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        // TODO: integrar com serviço de email (ex: Resend, Nodemailer)
-        console.log(`[email-otp] OTP para ${email} (${type}): ${otp}`);
+        await sendOTPEmail(email, otp, type);
       },
       otpLength: 6,
       expiresIn: 300, // 5 minutos

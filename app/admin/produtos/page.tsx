@@ -6,7 +6,7 @@ import Link from "next/link";
 import ProductsTable from "./_components/ProductsTable";
 
 export default async function ProdutosPage() {
-  const products = await prisma.product.findMany({
+  const raw = await prisma.product.findMany({
     orderBy: [{ order: "asc" }, { createdAt: "desc" }],
     include: {
       category: { select: { name: true } },
@@ -14,11 +14,19 @@ export default async function ProdutosPage() {
     },
   });
 
+  const products = raw.map((p) => ({
+    ...p,
+    price: p.price ? p.price.toNumber() : null,
+  }));
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8 max-w-5xl">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl font-semibold text-[#3a2e22]">Produtos</h1>
-        <Button asChild className="bg-caramelo hover:bg-caramelo-dark text-white gap-2">
+        <div>
+          <p className="text-xs text-taupe tracking-widest uppercase font-medium mb-1">Catálogo</p>
+          <h1 className="font-display text-3xl font-semibold text-[#2a1f14]">Produtos</h1>
+        </div>
+        <Button asChild className="bg-caramelo hover:bg-caramelo-dark text-white gap-2 rounded-xl">
           <Link href="/admin/produtos/novo">
             <Plus className="w-4 h-4" /> Novo Produto
           </Link>

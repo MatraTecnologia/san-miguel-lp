@@ -3,6 +3,7 @@ import { Playfair_Display, Montserrat, Inter, Nunito_Sans } from "next/font/goog
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/sonner";
 
 const nunitoSansHeading = Nunito_Sans({subsets:['latin'],variable:'--font-heading'});
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <NextTopLoader color="#D6A25F" showSpinner={false} height={3} />
         {children}
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Plus } from "lucide-react";
 import { saveCategory } from "../actions";
 import ImageUploader from "@/components/ImageUploader";
+import { toast } from "sonner";
 
 function toSlug(name: string) {
   return name
@@ -25,10 +26,15 @@ export default function AddCategoryDialog({ nextOrder }: { nextOrder: number }) 
 
   async function handleAction(formData: FormData) {
     formData.set("image", image);
-    await saveCategory(formData);
-    setOpen(false);
-    setImage("");
-    setName("");
+    try {
+      await saveCategory(formData);
+      toast.success("Categoria criada com sucesso!");
+      setOpen(false);
+      setImage("");
+      setName("");
+    } catch {
+      toast.error("Erro ao criar categoria. Tente novamente.");
+    }
   }
 
   const slug = toSlug(name);

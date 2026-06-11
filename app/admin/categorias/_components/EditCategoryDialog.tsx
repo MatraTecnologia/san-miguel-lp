@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Pencil } from "lucide-react";
 import { saveCategory } from "../actions";
 import ImageUploader from "@/components/ImageUploader";
+import { toast } from "sonner";
 
 type Category = { id: string; name: string; slug: string; image: string | null; order: number };
 
@@ -17,8 +18,13 @@ export default function EditCategoryDialog({ category }: { category: Category })
 
   async function handleAction(formData: FormData) {
     formData.set("image", image);
-    await saveCategory(formData);
-    setOpen(false);
+    try {
+      await saveCategory(formData);
+      toast.success("Categoria atualizada!");
+      setOpen(false);
+    } catch {
+      toast.error("Erro ao salvar categoria. Tente novamente.");
+    }
   }
 
   const folder = `san-miguel-lp/categorias/${category.slug}`;

@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   value: string;
@@ -27,8 +28,11 @@ export default function ImageUploader({ value, onChange, label = "Imagem", folde
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Erro no upload");
       onChange(data.url);
+      toast.success("Imagem enviada com sucesso!");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Erro no upload");
+      const msg = e instanceof Error ? e.message : "Erro no upload";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setUploading(false);
     }

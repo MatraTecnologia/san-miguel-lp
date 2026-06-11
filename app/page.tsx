@@ -19,23 +19,24 @@ import Testimonials from "./components/Testimonials";
 
 async function getHeroConfig() {
   const configs = await prisma.storeConfig.findMany({
-    where: { key: { in: ["whatsapp", "whatsapp_message"] } },
+    where: { key: { in: ["whatsapp", "whatsapp_message", "hero_image"] } },
   });
   const map = Object.fromEntries(configs.map((c) => [c.key, c.value]));
   return {
     whatsapp: map.whatsapp ?? "5543999999999",
     message: map.whatsapp_message ?? "Olá! Gostaria de saber mais sobre os produtos.",
+    heroImage: map.hero_image ?? "",
   };
 }
 
 export default async function Home() {
-  const { whatsapp, message } = await getHeroConfig();
+  const { whatsapp, message, heroImage } = await getHeroConfig();
 
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <div className="pt-16">
-        <Hero whatsapp={whatsapp} message={message} />
+        <Hero whatsapp={whatsapp} message={message} heroImage={heroImage} />
         <FeatureStrip />
 
         <Suspense fallback={<CategoryGridSkeleton />}>

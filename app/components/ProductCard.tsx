@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import WhatsAppButton from "./WhatsAppButton";
+import AddToCartButton from "@/components/AddToCartButton";
 
 type Product = {
   id: string;
@@ -57,14 +58,27 @@ export default function ProductCard({ product, whatsapp, message }: Props) {
           <p className="font-sans text-sm text-taupe">Consulte o preço</p>
         )}
 
-        <WhatsAppButton
-          productId={product.id}
-          productName={product.name}
-          whatsapp={whatsapp}
-          message={message}
-          label="Tenho interesse"
-          className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-sans font-semibold text-xs px-4 py-2.5 rounded-full transition-colors mt-auto"
-        />
+        <div className="flex gap-2 mt-auto">
+          <AddToCartButton
+            product={{
+              id: product.id,
+              name: product.name,
+              slug: product.slug,
+              price: price,
+              image: image?.url ?? "",
+            }}
+            label="Carrinho"
+            className="flex-1 flex items-center justify-center gap-1.5 border border-caramelo text-caramelo hover:bg-caramelo hover:text-white font-sans font-semibold text-xs px-3 py-2.5 rounded-full transition-all duration-200"
+          />
+          <WhatsAppButton
+            productId={product.id}
+            productName={product.name}
+            whatsapp={whatsapp}
+            message={message}
+            label="WhatsApp"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-sans font-semibold text-xs px-3 py-2.5 rounded-full transition-colors"
+          />
+        </div>
       </div>
     </div>
   );

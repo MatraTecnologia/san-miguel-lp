@@ -5,7 +5,7 @@ import Testimonials from "./Testimonials";
 
 async function getWhatsapp() {
   const configs = await prisma.storeConfig.findMany({
-    where: { key: { in: ["whatsapp", "whatsapp_message"] } },
+    where: { key: { in: ["whatsapp", "whatsapp_message", "hero_image"] } },
   });
   const map = Object.fromEntries(configs.map((c) => [c.key, c.value]));
   return {

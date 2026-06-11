@@ -15,6 +15,7 @@ model User {
   email         String    @unique
   emailVerified Boolean   @default(false)
   image         String?   @db.Text
+  role          String    @default("customer")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -139,6 +140,77 @@ model StoreConfig {
   updatedAt   DateTime @updatedAt
 
   @@map("store_config")
+}
+
+// ─── Pedidos & Clientes ───────────────────────────────────────
+
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  status      String      @default("pending") // pending, confirmed, delivering, delivered, cancelled
+  totalPrice  Decimal?    @db.Decimal(10, 2)
+  notes       String?     @db.Text
+  whatsappMsg String?     @db.Text
+  deliveryAt  DateTime?
+  warrantyAt  DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  items       OrderItem[]
+  coupons     OrderCoupon[]
+
+  @@map("order")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String?
+  name      String
+  price     Decimal? @db.Decimal(10, 2)
+  quantity  Int      @default(1)
+  imageUrl  String?  @db.Text
+
+  @@map("order_item")
+}
+
+model Coupon {
+  id          String       @id @default(cuid())
+  code        String       @unique
+  description String?
+  discount    Decimal      @db.Decimal(5, 2)
+  type        String       @default("percent") // percent | fixed
+  active      Boolean      @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime     @default(now())
+
+  assignments CouponAssignment[]
+  orders      OrderCoupon[]
+
+  @@map("coupon")
+}
+
+model CouponAssignment {
+  id        String   @id @default(cuid())
+  couponId  String
+  coupon    Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  userId    String
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@unique([couponId, userId])
+  @@map("coupon_assignment")
+}
+
+model OrderCoupon {
+  id       String @id @default(cuid())
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  couponId String
+  coupon   Coupon @relation(fields: [couponId], references: [id])
+
+  @@map("order_coupon")
 }
 
 // ─── Analytics ────────────────────────────────────────────────
