@@ -7,8 +7,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) redirect("/login");
-  // @ts-expect-error additionalFields
-  if (session.user.role !== "admin") redirect("/");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if ((session.user as any).role !== "admin") redirect("/");
 
   return (
     <div className="flex min-h-screen w-full bg-[#f5f0e8]">

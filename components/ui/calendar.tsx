@@ -87,7 +87,6 @@ function Calendar({
             : "flex items-center gap-1 rounded-(--cell-radius) text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground",
           defaultClassNames.caption_label
         ),
-        table: "w-full border-collapse",
         weekdays: cn("flex", defaultClassNames.weekdays),
         weekday: cn(
           "flex-1 rounded-(--cell-radius) text-[0.8rem] font-normal text-muted-foreground select-none",
@@ -131,8 +130,11 @@ function Calendar({
           defaultClassNames.disabled
         ),
         hidden: cn("invisible", defaultClassNames.hidden),
+        // react-day-picker v9 uses `table` but its TS type omits it
+        table: "w-full border-collapse",
         ...classNames,
-      }}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any}
       components={{
         Root: ({ className, rootRef, ...props }) => {
           return (
