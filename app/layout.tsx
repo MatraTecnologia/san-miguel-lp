@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Montserrat } from "next/font/google";
+import { Playfair_Display, Montserrat, Inter, Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const nunitoSansHeading = Nunito_Sans({subsets:['latin'],variable:'--font-heading'});
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -26,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${playfair.variable} ${montserrat.variable} h-full antialiased`}>
+    <html lang="pt-BR" className={cn("h-full", "antialiased", playfair.variable, montserrat.variable, "font-sans", inter.variable, nunitoSansHeading.variable)}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
