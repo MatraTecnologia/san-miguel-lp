@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Package, MessageSquareQuote, TrendingUp, MousePointerClick, ArrowUpRight, ExternalLink } from "lucide-react";
+import { Package, MessageSquareQuote, TrendingUp, MousePointerClick, ArrowUpRight, ExternalLink, Users } from "lucide-react";
 import LeadsChart from "./_components/LeadsChart";
 import Link from "next/link";
 
@@ -11,11 +11,12 @@ export default async function AdminDashboard() {
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
   sevenDaysAgo.setHours(0, 0, 0, 0);
 
-  const [totalProducts, totalTestimonials, totalLeads, leadsToday, topProducts, dailyLeadsRaw] = await Promise.all([
+  const [totalProducts, totalTestimonials, totalLeads, leadsToday, totalClients, topProducts, dailyLeadsRaw] = await Promise.all([
     prisma.product.count({ where: { active: true } }),
     prisma.testimonial.count({ where: { approved: true } }),
     prisma.lead.count(),
     prisma.lead.count({ where: { createdAt: { gte: today } } }),
+    prisma.user.count({ where: { role: "customer" } }),
     prisma.lead.groupBy({
       by: ["productId"],
       where: { productId: { not: null } },
@@ -89,6 +90,14 @@ export default async function AdminDashboard() {
       color: "text-[#b07ab0]",
       bg: "bg-[#b07ab0]/10",
     },
+    {
+      label: "Clientes",
+      value: totalClients,
+      icon: Users,
+      href: "/admin/usuarios",
+      color: "text-[#6e8fab]",
+      bg: "bg-[#6e8fab]/10",
+    },
   ];
 
   return (
@@ -110,7 +119,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 xl:grid-cols-5 gap-4">
         {stats.map((s) => (
           <Link
             key={s.label}

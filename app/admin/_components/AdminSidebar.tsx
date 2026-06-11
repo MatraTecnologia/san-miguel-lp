@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Package, Tag, MessageSquareQuote, Settings, LogOut, Menu, X, ShoppingBag, Ticket } from "lucide-react";
+import { LayoutDashboard, Package, Tag, MessageSquareQuote, Settings, LogOut, Menu, X, ShoppingBag, Ticket, Users } from "lucide-react";
 import { signOut } from "@/lib/auth-client";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ const nav = [
   { label: "Categorias", href: "/admin/categorias", icon: Tag },
   { label: "Cupons", href: "/admin/cupons", icon: Ticket },
   { label: "Depoimentos", href: "/admin/depoimentos", icon: MessageSquareQuote },
+  { label: "Usuários", href: "/admin/usuarios", icon: Users },
   { label: "Configurações", href: "/admin/configuracoes", icon: Settings },
 ];
 
